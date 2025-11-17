@@ -558,6 +558,9 @@
         const submitBtn = document.getElementById('submitBtn');
         const successMessage = document.getElementById('successMessage');
 
+        // REPLACE THIS URL WITH YOUR GOOGLE APPS SCRIPT WEB APP URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyXDZQnnMQZYvNgfk2L2VPSTH0m8bIra4a4lnEjW--vW6sv3XEqik4AAiNs2fWNezSU/exec';
+
         form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
@@ -576,11 +579,19 @@
             submitBtn.classList.add('loading');
             submitBtn.disabled = true;
 
-            // Simulate API call (replace with your actual backend call)
+            // Submit to Google Sheet
             try {
-                await new Promise(resolve => setTimeout(resolve, 1000));
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email: email })
+                });
 
-                // Log for now - replace with actual API call
+                // Note: With no-cors mode, we can't read the response
+                // but the email will still be saved to the Google Sheet
                 console.log('Email submitted:', email);
 
                 // Show success message
